@@ -4,6 +4,41 @@
     <title>Apps</title>
     <link rel="stylesheet" href="css/style.css">
     <script src="js/script.js" defer></script>
+    <script>
+function recommendApps() {
+  const selected = Array.from(document.querySelectorAll('.quiz-options input:checked'))
+                        .map(cb => cb.value);
+
+  const resultsDiv = document.getElementById('results');
+  resultsDiv.innerHTML = '';
+
+  if (selected.length === 0) {
+    resultsDiv.innerHTML = '<p>Please select at least one option above.</p>';
+    return;
+  }
+
+  const recommendations = {
+    anxiety: ['Calm', 'Headspace', 'Insight Timer'],
+    depression: ['BetterHelp', '7 Cups', 'Daylio'],
+    sleep: ['SleepTown', 'Calm', 'Insight Timer'],
+    loneliness: ['7 Cups', 'YourDOST'],
+    productivity: ['Daylio', 'Reflectly']
+  };
+
+  let recommendedApps = new Set();
+  selected.forEach(condition => {
+    (recommendations[condition] || []).forEach(app => recommendedApps.add(app));
+  });
+
+  if (recommendedApps.size === 0) {
+    resultsDiv.innerHTML = '<p>No matching apps found.</p>';
+  } else {
+    resultsDiv.innerHTML = '<h3>Recommended Apps:</h3><ul>' +
+      Array.from(recommendedApps).map(app => `<li>${app}</li>`).join('') +
+      '</ul>';
+  }
+}
+    </script>
     <style>
  body {
     font-family: Arial, sans-serif;
